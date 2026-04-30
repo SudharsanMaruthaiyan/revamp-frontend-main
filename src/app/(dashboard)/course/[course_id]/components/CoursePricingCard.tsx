@@ -112,7 +112,7 @@ export function CoursePricingCard({ course }: { course: CourseDetail }) {
     <div className="w-full bg-white rounded-[12px] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-[#ECECEC] flex flex-col font-poppins">
       
       {/* Top Banner Image Section */}
-      <div className="relative w-full h-[180px] rounded-[8px] overflow-hidden mb-6 bg-gradient-to-br from-[#2b7aff] to-[#1e5bbd]">
+      <div className="relative w-full h-[180px] rounded-[8px] overflow-hidden mb-6 bg-gradient-to-b  from-[#2b7aff] to-[#1e5bbd]">
         {course.course_card_details?.cover_image_url ? (
           <img
             src={course.course_card_details.cover_image_url}
