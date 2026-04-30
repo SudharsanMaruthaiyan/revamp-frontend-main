@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { 
   User, 
   Mail, 
@@ -13,78 +10,15 @@ import {
   ChevronRight,
   Trophy
 } from "lucide-react";
-import { getUserApi, updateProfileApi, type UserDetails, type UpdateProfilePayload } from "@/modules/user/api";
-import { parseApiError } from "@/lib/parse-api-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PageLoader } from "@/components/ui/Loader";
 import { ContentLayout } from "@/components/layout/ContentLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/shell-primitives";
 
 export default function ProfilePage() {
-  const { data: session, status } = useSession();
   const router = useRouter();
-  const [user, setUser] = useState<UserDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const userId = (session?.user as { id?: string; userId?: string })?.id ?? (session?.user as { userId?: string })?.userId;
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/login");
-      return;
-    }
-    if (status !== "authenticated" || !userId) return;
-    let cancelled = false;
-    getUserApi(userId)
-      .then((res) => {
-        if (cancelled) return;
-        setUser(res.data);
-        setName(res.data.name ?? "");
-        setEmail(res.data.email ?? "");
-      })
-      .catch((err) => {
-        if (!cancelled) toast.error(parseApiError(err));
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [status, userId, router]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userId) return;
-    setSaving(true);
-    const payload: UpdateProfilePayload = { name: name.trim() || undefined, email: email.trim() || undefined };
-    try {
-      const res = await updateProfileApi(userId, payload);
-      setUser(res.data);
-      toast.success("Profile updated successfully");
-    } catch (err) {
-      toast.error(parseApiError(err));
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  if (status === "loading" || loading) return <PageLoader />;
-  if (!user) {
-    return (
-      <div className="container py-12 text-center text-muted-foreground">
-        Could not load profile. Check the toast for details.
-      </div>
-    );
-  }
-
-  const userInitials = (user.name || "U").charAt(0).toUpperCase();
 
   return (
     <ContentLayout title="Profile">
@@ -97,7 +31,7 @@ export default function ProfilePage() {
               <Avatar className="w-32 h-32 border-4 border-white/10 shadow-2xl">
                 <AvatarImage src="#" />
                 <AvatarFallback className="text-4xl font-bold bg-[#F1A33C] text-white">
-                  {userInitials}
+                  U
                 </AvatarFallback>
               </Avatar>
               <button className="absolute bottom-1 right-1 p-2 bg-white text-gray-900 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
@@ -105,10 +39,10 @@ export default function ProfilePage() {
               </button>
             </div>
             <div className="text-center md:text-left space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight">{user.name}</h1>
+              <h1 className="text-3xl font-bold tracking-tight">Student</h1>
               <p className="text-white/60 flex items-center justify-center md:justify-start gap-2">
                 <Mail className="w-4 h-4" />
-                {user.email}
+                student@revampacademy.com
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-3 pt-2">
                 <span className="px-3 py-1 bg-white/10 rounded-full text-xs font-semibold backdrop-blur-sm border border-white/5">
@@ -132,15 +66,13 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-sm font-semibold text-gray-700">Display Name</Label>
                     <div className="relative">
                       <Input
                         id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
                         className="pl-10 h-12 rounded-xl border-gray-100 focus:ring-[#F1A33C] focus:border-[#F1A33C]"
                         placeholder="John Doe"
                       />
@@ -153,8 +85,6 @@ export default function ProfilePage() {
                       <Input
                         id="email"
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
                         className="pl-10 h-12 rounded-xl border-gray-100 focus:ring-[#F1A33C] focus:border-[#F1A33C]"
                         placeholder="john@example.com"
                       />
@@ -166,7 +96,6 @@ export default function ProfilePage() {
                     <div className="relative">
                       <Input
                         id="phone"
-                        value={user.phone_number ?? ""}
                         disabled
                         className="pl-10 h-12 bg-gray-50/50 rounded-xl border-gray-100 text-gray-500 cursor-not-allowed"
                       />
@@ -179,10 +108,9 @@ export default function ProfilePage() {
                 <div className="flex justify-end pt-4">
                   <Button 
                     type="submit" 
-                    disabled={saving} 
                     className="h-12 px-8 rounded-xl bg-[#F1A33C] hover:bg-[#E0922B] text-white font-bold transition-all shadow-lg shadow-[#F1A33C]/20"
                   >
-                    {saving ? "Saving Changes..." : "Save Profile Information"}
+                    Save Profile Information
                   </Button>
                 </div>
               </form>
