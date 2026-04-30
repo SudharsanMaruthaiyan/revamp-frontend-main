@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { 
   BookOpen, 
@@ -12,23 +11,9 @@ import {
 import { ContentLayout } from "@/components/layout/ContentLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { PageLoader, StatsSkeleton } from "@/components/ui/Loader";
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
   const router = useRouter();
-
-  if (status === "loading") {
-    return (
-      <ContentLayout title="Dashboard">
-        <div className="max-w-7xl mx-auto space-y-8 py-6 px-4">
-          <div className="space-y-4">
-            <StatsSkeleton />
-          </div>
-        </div>
-      </ContentLayout>
-    );
-  }
 
   const stats = [
     { label: "Courses Enrolled", value: "12", icon: BookOpen, color: "text-blue-500", bg: "bg-blue-50" },
@@ -58,10 +43,10 @@ export default function DashboardPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Welcome back, <span className="text-[#F1A33C]">{session?.user?.name?.split(' ')[0] ?? "Learner"}!</span>
+              Welcome back, <span className="text-[#F1A33C]">Learner!</span>
             </h1>
             <p className="text-muted-foreground">
-              You're making great progress. Keep it up!
+              You&apos;re making great progress. Keep it up!
             </p>
           </div>
           <button 

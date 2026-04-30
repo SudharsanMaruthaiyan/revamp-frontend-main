@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, LayoutDashboard, User, Settings } from "lucide-react";
+import { LogOut, LayoutDashboard, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,13 +22,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/shell-primitives";
-import { signOut, useSession } from "next-auth/react";
 
 export function UserNav() {
-    const { data: session } = useSession();
-    const userName = session?.user?.name || "User";
-    const userInitials = userName.charAt(0).toUpperCase();
-    const userEmail = session?.user?.email || "";
+    const userName = "User";
+    const userInitials = "U";
+    const userEmail = "";
 
     return (
         <DropdownMenu>
@@ -87,9 +85,7 @@ export function UserNav() {
                 <DropdownMenuItem
                     className="rounded-xl px-3 py-2.5 cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50 transition-colors group"
                     onClick={() => {
-                        signOut({
-                            callbackUrl: "/",
-                        });
+                        // Auth removed — sign out is disabled
                     }}
                 >
                     <LogOut className="w-4 h-4 mr-3 opacity-70 group-hover:opacity-100" />

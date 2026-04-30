@@ -14,7 +14,6 @@ import {
     TooltipContent,
     TooltipProvider
 } from "@/components/ui/shell-primitives";
-import { signOut } from "next-auth/react";
 
 interface MenuProps {
     isOpen: boolean | undefined;
@@ -111,7 +110,7 @@ export function Menu({ isOpen }: MenuProps) {
                                 <TooltipTrigger asChild>
                                     <Button
                                         onClick={() => {
-                                            signOut({ callbackUrl: "/" });
+                                            // Auth removed
                                         }}
                                         variant="ghost"
                                         className={cn(

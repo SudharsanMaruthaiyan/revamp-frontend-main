@@ -1,7 +1,6 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
-
+// Auth has been removed. AuthProvider now just renders children directly.
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  return <SessionProvider>{children}</SessionProvider>;
-} 
+  return <>{children}</>;
+}
