@@ -113,9 +113,9 @@ export function CoursePricingCard({ course }: { course: CourseDetail }) {
       
       {/* Top Banner Image Section */}
       <div className="relative w-full h-[180px] rounded-[8px] overflow-hidden mb-6 bg-gradient-to-br from-[#2b7aff] to-[#1e5bbd]">
-        {course.cover_image_url ? (
+        {course.course_card_details?.cover_image_url ? (
           <img
-            src={course.cover_image_url}
+            src={course.course_card_details.cover_image_url}
             alt={course.course_name}
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -164,9 +164,10 @@ export function CoursePricingCard({ course }: { course: CourseDetail }) {
       {/* Gray Blocks (Trainers / Placeholders) */}
       <div className="flex justify-between gap-3 mb-8">
         {[0, 1, 2].map((idx) => {
-          const trainer = course.trainers?.[idx];
-          return trainer?.image_url ? (
-            <img key={idx} src={trainer.image_url} alt={trainer.name} className="flex-1 aspect-square rounded-[8px] object-cover bg-[#D9D9D9]" />
+          // course.trainers does not exist — trainer data lives in course.course_info.trainer_details
+          const trainer = course.course_info?.trainer_details?.[idx];
+          return trainer?.trainer_image_url ? (
+            <img key={idx} src={trainer.trainer_image_url} alt={trainer.trainer_name} className="flex-1 aspect-square rounded-[8px] object-cover bg-[#D9D9D9] w-[100px]" />
           ) : (
             <div key={idx} className="flex-1 aspect-square rounded-[8px] bg-[#D9D9D9]" />
           );
