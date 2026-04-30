@@ -29,6 +29,7 @@ export function CourseList({
     limit: PAGE_SIZE,
     category_id: categoryId,
     q: searchTerm.trim() || undefined,
+    is_public: true,
   });
 
   useEffect(() => {
