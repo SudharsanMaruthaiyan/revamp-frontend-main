@@ -1,0 +1,12 @@
+export { CourseLayout } from "./CourseLayout";
+export { CourseBanner } from "./CourseBanner";
+export { CourseHighlights } from "./CourseHighlights";
+export { CourseSidebar } from "./CourseSidebar";
+export { CoursePricingCard } from "./CoursePricingCard";
+export { CourseTabs } from "./CourseTabs";
+export { CourseNavbar } from "./CourseNavbar";
+export { CourseInfoTab } from "./CourseInfoTab";
+export { CourseCurriculumTab } from "./CourseCurriculumTab";
+export { CourseReviewTab } from "./CourseReviewTab";
+export { CourseProjectsTab } from "./CourseProjectsTab";
+export { CourseAnnouncementTab } from "./CourseAnnouncementTab";
